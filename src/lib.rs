@@ -62,7 +62,7 @@ impl Span {
     #[allow(clippy::unnecessary_cast)]
     pub fn shrink_back(&mut self, amount: SpanValue) {
         assert!(
-            self.len() >= amount as usize,
+            self.len() >= amount,
             "cannot create negative-size span"
         );
         self.start += amount;
@@ -76,7 +76,7 @@ impl Span {
     #[allow(clippy::unnecessary_cast)]
     pub fn shrink_front(&mut self, amount: SpanValue) {
         assert!(
-            self.len() >= amount as usize,
+            self.len() >= amount,
             "cannot create negative-size span"
         );
         self.end -= amount;
