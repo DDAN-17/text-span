@@ -42,20 +42,22 @@ impl Span {
     }
 
     /// Grows the span from the back. This moves the start value back by `amount`.
+    /// 
+    /// # Panics
+    /// Panics if the start of the span is less than `amount`, since spans can't have a negative start value,
     #[inline(always)]
     pub fn grow_back(&mut self, amount: SpanValue) {
+        assert!(self.start >= amount, "cannot create a span with a negative start value");
         self.start -= amount;
     }
 
     /// Shrinks the span from the back. This moves the start value up by `amount`.
     ///
     /// # Panics
-    /// This method will panic if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
+    /// Panics if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
     #[inline(always)]
     pub fn shrink_back(&mut self, amount: SpanValue) {
-        if self.len() < amount {
-            panic!("cannot create negative-size span");
-        }
+        assert!(self.len() >= amount, "cannot create negative-size span");
         self.start += amount;
     }
 
@@ -65,9 +67,7 @@ impl Span {
     /// This method will panic if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
     #[inline(always)]
     pub fn shrink_front(&mut self, amount: SpanValue) {
-        if self.len() < amount {
-            panic!("cannot create negative-size span");
-        }
+        assert!(self.len() >= amount, "cannot create negative-size span");
         self.end -= amount;
     }
 
@@ -90,6 +90,18 @@ impl Span {
         let span = *self;
         self.start = self.end;
         span
+    }
+
+    /// Applies the span to `string`.
+    /// 
+    /// # Panics
+    /// Panics if `string` is shorter than the end of the span.
+    #[allow(clippy::unnecessary_cast)]
+    pub fn apply<'a>(&self, string: &'a str) -> &'a str {
+        assert!(string.len() > self.end, "string is too short to have the span applied");
+        let start = string.char_indices().nth(self.start as usize).unwrap().0;
+        let end = string.char_indices().nth(self.end as usize).unwrap().0;
+        &string[start..end]
     }
 }
 
