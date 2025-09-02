@@ -3,11 +3,11 @@ name = "text-span"
 description = "Struct covering areas of text"
 keywords = ["span", "text", "code", "area"]
 categories = ["data-structures", "filesystem", "no-std", "no-std::no-alloc"]
-version = "1.0.0"
+version = "1.0.1"
 edition = "2024"
-license-file = "LICENSE"
+license = "MIT"
 readme = "README.md"
-documentation = "https://docs.rs/text-span/1.0.0"
+documentation = "https://docs.rs/text-span/1.0.1"
 repository = "https://github.com/DDAN-17/text-span"
 
 [features]
