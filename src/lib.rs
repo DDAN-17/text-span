@@ -112,7 +112,7 @@ impl Span {
     #[allow(clippy::unnecessary_cast)]
     pub fn apply<'a>(&self, string: &'a str) -> &'a str {
         assert!(
-            string.len() > self.end as usize,
+            string.len() >= self.end as usize,
             "string is too short to have the span applied"
         );
         let start = string.char_indices().nth(self.start as usize).unwrap().0;
