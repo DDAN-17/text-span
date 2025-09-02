@@ -1,0 +1,26 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        feature: ["usize", "u128", "u64", "u32", "u16", "u8"]
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build
+      run: cargo build --verbose --no-default-features --features span-value-${{ matrix.feature }}
+    - name: Clippy
+      run: cargo clippy --verbose --no-default-features --features span-value-${{ matrix.feature }}
+    - name: Format
+      run: cargo fmt --check --verbose
