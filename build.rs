@@ -11,7 +11,12 @@ fn main() {
     let mut selected_features = 0;
     for feature in features {
         println!("{:?}", std::env::vars().collect::<Vec<_>>());
-        if std::env::var(format!("CARGO_FEATURE_{}", feature.to_uppercase().replace("-", "_"))).is_ok() {
+        if std::env::var(format!(
+            "CARGO_FEATURE_{}",
+            feature.to_uppercase().replace("-", "_")
+        ))
+        .is_ok()
+        {
             selected_features += 1;
         }
     }
