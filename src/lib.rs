@@ -3,16 +3,22 @@
 use core::{cmp::Ordering, ops::Range};
 
 #[cfg(feature = "span-value-usize")]
+/// Type of span values
 pub type SpanValue = usize;
 #[cfg(feature = "span-value-u128")]
+/// Type of span values
 pub type SpanValue = u128;
 #[cfg(feature = "span-value-u64")]
+/// Type of span values
 pub type SpanValue = u64;
 #[cfg(feature = "span-value-u32")]
+/// Type of span values
 pub type SpanValue = u32;
 #[cfg(feature = "span-value-u16")]
+/// Type of span values
 pub type SpanValue = u16;
 #[cfg(feature = "span-value-u8")]
+/// Type of span values
 pub type SpanValue = u8;
 
 /// The `Span` type represents an area of a file.
