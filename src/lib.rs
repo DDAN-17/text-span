@@ -1,4 +1,6 @@
-use std::{cmp::Ordering, ops::Range};
+#![no_std]
+
+use core::{cmp::Ordering, ops::Range};
 
 #[cfg(feature = "span-value-usize")]
 pub type SpanValue = usize;
