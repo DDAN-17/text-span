@@ -1,7 +1,14 @@
 [package]
 name = "text-span"
+description = "Struct covering areas of text"
+keywords = ["span", "text", "code", "area"]
+categories = ["data-structures", "filesystem", "no-std", "no-std::no-alloc"]
 version = "1.0.0"
 edition = "2024"
+license-file = "LICENSE"
+readme = "README.md"
+documentation = "https://docs.rs/text-span/1.0.0"
+repository = "https://github.com/DDAN-17/text-span"
 
 [features]
 default = ["span-value-usize"]
