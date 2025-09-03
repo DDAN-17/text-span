@@ -115,8 +115,8 @@ impl Span {
             string.len() >= self.end as usize,
             "string is too short to have the span applied"
         );
-        let start = string.char_indices().nth(self.start as usize).unwrap().0;
-        let end = string.char_indices().nth(self.end as usize).unwrap_or(string.len()).0;
+        let start = string.char_indices().map(|x| x.0).nth(self.start as usize).unwrap();
+        let end = string.char_indices().map(|x| x.0).nth(self.end as usize).unwrap_or(string.len());
         &string[start..end]
     }
 }
