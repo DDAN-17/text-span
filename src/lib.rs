@@ -49,6 +49,14 @@ impl Span {
         self.end += amount;
     }
 
+    /// Returns a span that is grown from the front. This moves the end value up by `amount`.
+    #[inline(always)]
+    pub fn with_grow_front(&self, amount: SpanValue) -> Self {
+        let mut new = *self;
+        new.end += amount;
+        new
+    }
+
     /// Grows the span from the back. This moves the start value back by `amount`.
     ///
     /// # Panics
@@ -62,15 +70,41 @@ impl Span {
         self.start -= amount;
     }
 
+    /// Returns a span that is grown from the back. This moves the start value back by `amount`.
+    ///
+    /// # Panics
+    /// Panics if the start of the span is less than `amount`, since spans can't have a negative start value,
+    #[inline(always)]
+    pub fn with_grow_back(&self, amount: SpanValue) -> Self {
+        assert!(
+            self.start >= amount,
+            "cannot create a span with a negative start value"
+        );
+        let mut new = *self;
+        new.start -= amount;
+        new
+    }
+
     /// Shrinks the span from the back. This moves the start value up by `amount`.
     ///
     /// # Panics
     /// Panics if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
     #[inline(always)]
-    #[allow(clippy::unnecessary_cast)]
     pub fn shrink_back(&mut self, amount: SpanValue) {
         assert!(self.len() >= amount, "cannot create negative-size span");
         self.start += amount;
+    }
+
+    /// Returns a span that is shrunk from the back. This moves the start value up by `amount`.
+    ///
+    /// # Panics
+    /// Panics if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
+    #[inline(always)]
+    pub fn with_shrink_back(&self, amount: SpanValue) -> Self {
+        assert!(self.len() >= amount, "cannot create negative-size span");
+        let mut new = *self;
+        new.start += amount;
+        new
     }
 
     /// Shrinks the span from the front. This moves the end value back by `amount`.
@@ -78,10 +112,21 @@ impl Span {
     /// # Panics
     /// This method will panic if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
     #[inline(always)]
-    #[allow(clippy::unnecessary_cast)]
     pub fn shrink_front(&mut self, amount: SpanValue) {
         assert!(self.len() >= amount, "cannot create negative-size span");
         self.end -= amount;
+    }
+
+    /// Returns a span shrunk from the front. This moves the end value back by `amount`.
+    ///
+    /// # Panics
+    /// This method will panic if the size of the `Span` is less than `amount`, since a `Span`'s size can't be negative.
+    #[inline(always)]
+    pub fn with_shrink_front(&self, amount: SpanValue) -> Self {
+        assert!(self.len() >= amount, "cannot create negative-size span");
+        let mut new = *self;
+        new.end -= amount;
+        new
     }
 
     /// Checks if a `Span`'s size is `0`. Returns `true` if `0`, and false if anything else.
