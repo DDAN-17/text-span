@@ -19,8 +19,8 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: cargo build --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }} ariadne
+      run: cargo build --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }},ariadne
     - name: Clippy
-      run: cargo clippy --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }} ariadne
+      run: cargo clippy --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }},ariadne
     - name: Format
       run: cargo fmt --check --verbose
