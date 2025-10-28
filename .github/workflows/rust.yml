@@ -13,14 +13,14 @@ jobs:
   build:
     strategy:
       matrix:
-        feature: ["usize", "u128", "u64", "u32", "u16", "u8"]
+        span-value-feature: ["usize", "u128", "u64", "u32", "u16", "u8"]
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
     - name: Build
-      run: cargo build --verbose --no-default-features --features span-value-${{ matrix.feature }}
+      run: cargo build --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }} ariadne
     - name: Clippy
-      run: cargo clippy --verbose --no-default-features --features span-value-${{ matrix.feature }}
+      run: cargo clippy --verbose --no-default-features --features span-value-${{ matrix.span-value-feature }} ariadne
     - name: Format
       run: cargo fmt --check --verbose

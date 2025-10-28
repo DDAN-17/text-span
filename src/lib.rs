@@ -24,9 +24,9 @@ pub type SpanValue = u8;
 /// The `Span` type represents an area of a file.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub struct Span {
-    /// The start of the `Span`.
+    /// The start of the `Span` (Inclusive)
     pub start: SpanValue,
-    /// The end of the `Span`.
+    /// The end of the `Span` (Exclusive)
     pub end: SpanValue,
 }
 
@@ -38,8 +38,13 @@ impl Span {
     }
 
     /// Creates a new `Span` from a pair of start and end indexes. These indexes are indexes into a string by `char`s.
+    ///
+    /// # Panics
+    /// Panics if start is greater than end, since spans can't have a negative length.
     #[inline(always)]
     pub fn new_from(start: SpanValue, end: SpanValue) -> Self {
+        assert!(end >= start, "cannot create negative-size span");
+
         Span { start, end }
     }
 
@@ -202,5 +207,24 @@ fn dual_order(x: Ordering, y: Ordering) -> Option<Ordering> {
         (x, Ordering::Equal) => Some(x),
         (Ordering::Equal, x) => Some(x),
         _ => unreachable!(),
+    }
+}
+
+#[cfg(feature = "ariadne")]
+impl ariadne::Span for Span {
+    type SourceId = ();
+
+    fn source(&self) -> &Self::SourceId {
+        &()
+    }
+
+    #[allow(clippy::unnecessary_cast)]
+    fn start(&self) -> usize {
+        self.start as usize
+    }
+
+    #[allow(clippy::unnecessary_cast)]
+    fn end(&self) -> usize {
+        self.end as usize
     }
 }

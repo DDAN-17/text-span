@@ -3,11 +3,11 @@ name = "text-span"
 description = "Struct covering areas of text"
 keywords = ["span", "text", "code", "area"]
 categories = ["data-structures", "filesystem", "no-std", "no-std::no-alloc"]
-version = "1.1.0"
+version = "2.0.0"
 edition = "2024"
 license = "MIT"
 readme = "README.md"
-documentation = "https://docs.rs/text-span/1.0.1"
+documentation = "https://docs.rs/text-span"
 repository = "https://github.com/DDAN-17/text-span"
 
 [features]
@@ -19,7 +19,7 @@ span-value-u32    = []
 span-value-u16    = []
 span-value-u8     = []
 
-[dependencies]
+ariadne = ["dep:ariadne"]
 
-[dev-dependencies]
-itertools = "0.14.0"
+[dependencies]
+ariadne = { version = "*", optional = true }
