@@ -37,7 +37,7 @@ impl Span {
         Self::new_from(0, 0)
     }
 
-    /// Creates a new `Span` from a pair of start and end indexes. These indexes are indexes into a string by `char`s.
+    /// Creates a new `Span` from a pair of start and end indexes.
     ///
     /// # Panics
     /// Panics if start is greater than end, since spans can't have a negative length.
@@ -155,27 +155,36 @@ impl Span {
         span
     }
 
-    /// Applies the span to `string`.
+    /// Applies the span to `string`, with `start` and `end` corresponding to char indexes.
     ///
     /// # Panics
     /// Panics if `string` is shorter than the end of the span.
     #[allow(clippy::unnecessary_cast)]
     pub fn apply<'a>(&self, string: &'a str) -> &'a str {
+        let mut chars = string.char_indices();
+
+        let start = chars
+            .nth(self.start)
+            .expect("string is too short to have the span applied")
+            .0;
+        let end = chars
+            .nth(self.len())
+            .expect("string is too short to have the span applied")
+            .0;
+        &string[start..end]
+    }
+
+    /// Applies the span to `string`, with `start` and `end` corresponding to byte indexes.
+    ///
+    /// # Panics
+    /// Panics if `string` is shorter than the end of the span.
+    #[allow(clippy::unnecessary_cast)]
+    pub fn apply_bytes<'a>(&self, string: &'a str) -> &'a str {
         assert!(
             string.len() >= self.end as usize,
             "string is too short to have the span applied"
         );
-        let start = string
-            .char_indices()
-            .map(|x| x.0)
-            .nth(self.start as usize)
-            .unwrap();
-        let end = string
-            .char_indices()
-            .map(|x| x.0)
-            .nth(self.end as usize)
-            .unwrap_or(string.len());
-        &string[start..end]
+        &string[self.start..self.end]
     }
 }
 
