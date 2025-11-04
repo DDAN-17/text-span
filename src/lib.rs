@@ -164,11 +164,11 @@ impl Span {
         let mut chars = string.char_indices();
 
         let start = chars
-            .nth(self.start)
+            .nth(self.start as usize)
             .expect("string is too short to have the span applied")
             .0;
         let end = chars
-            .nth(self.len())
+            .nth(self.len() as usize)
             .expect("string is too short to have the span applied")
             .0;
         &string[start..end]
@@ -184,7 +184,7 @@ impl Span {
             string.len() >= self.end as usize,
             "string is too short to have the span applied"
         );
-        &string[self.start..self.end]
+        &string[(self.start as usize)..(self.end as usize)]
     }
 }
 
